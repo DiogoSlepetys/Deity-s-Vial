@@ -1,0 +1,399 @@
+
+
+.img-pixelated { 
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated; 				/* Chrome 						  */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+}
+[draggable=true] {
+    cursor: move;
+}
+.chat-window{
+	height: 8%;
+}
+.chat-window:hover
+{
+	position: fixed;
+	top: 66%;
+	height: 29%;
+}
+
+.iconstab{
+	width: 100%; 
+	pointer-events: none; 
+	float: left; 
+	border: 3px solid white; 
+	border-radius: 22%; 
+	background-color: rgba(255, 255, 255, 0.50);
+}
+.iconstab:hover{
+	
+	background-color: rgba(0, 0, 255, 1.0);
+}
+.myCheckbox input{
+	display:none;
+}
+.myCheckbox span {
+    width: 32px;
+    height: 32px;
+    display: block;
+    background: url("/game/textures/checkBoxDisabled.png");
+	background-repeat: no-repeat;
+	background-size:100%;
+}
+
+.myCheckbox input:checked + span {
+    background: url("/game/textures/checkBoxEnabled.png");
+	background-repeat: no-repeat;
+	background-size:100%;
+}
+
+.transp-rounded-bg{
+	display: block;
+	background-color: rgba(50, 255, 100, 0.50);
+	/*border-radius: 10px;*/	
+}
+.transp-rounded-bg-blk{
+	display: block;
+	border-radius: 10px;	
+	background-image: url('/game/textures/menuBG2.png');
+	background-repeat: no-repeat;
+	background-size:100%;
+	border: 5px solid brown;
+	/*border-radius: 16px;*/ 
+	background-color: rgba(80,65,0,1.0);
+}
+.pad-into{
+	transform: translate(8%,15%);
+}
+.item-slot{
+	display: flex;
+	float:left;
+	width: 12.85%;
+	height: 0;
+	display: block;
+	background-color: rgba( 0, 50, 50, 0.97);
+	
+	box-shadow: 0 0 0.7rem #047;
+	/*border-radius: 20%;*/	
+	line-height:100%;
+	padding-bottom: 12.85%;
+	margin-left: 1.3%;
+	margin-top: 0.5%;
+}
+.armor-slot{
+	display: flex;
+	float:left;
+	width: 31%;
+	height: 0;
+	display: block;
+	background-color: rgba(50, 80, 160, 0.30);
+	
+	box-shadow: 0 0 0.7rem #000;
+	/*border-radius: 20%;*/	
+	line-height:100%;
+	padding-bottom: 31%;
+	margin-left: 2%;
+	margin-top: 1%;
+}
+.armor-slots-frame{
+	
+	display: inline-flex;
+	height: 0;
+	padding-bottom: 37%;
+	background-color: rgba(0, 0, 0, 1);
+	/*border-radius: 10px;*/
+}
+
+.item-slots-frame{
+	
+	display: inline-flex;
+	height: 0;
+	padding-bottom: 56%;
+	background-color: rgba(50, 100, 25, 0.50);
+	/*border-radius: 10px;*/
+}
+.warning-slide{
+	animation-name: warnSlide;
+	animation-duration: 2s;
+}
+.slide-animation {
+	animation-name: slideFrom;
+	animation-duration: 4s;
+}
+/* Animation of the WARNING top-dropdown menu ________________________________________________________ */
+@keyframes warnSlide{
+	from {top: -23%;}
+	to {top: 23%;}
+}
+@keyframes warnSlideBack{
+	from {top: 23%;}
+	to {top: -23%;}
+}
+/* Animation of the ACCOUNT bot-dropdown menu ________________________________________________________ */
+@keyframes warnAccSlide{
+	from {top: 152%;}
+	to {top: 50%;}
+}
+@keyframes warnAccSlideBack{
+	from {top: 50%;}
+	to {top: 152%;}
+}
+/* Animation of the left IN-GAME menu ________________________________________________________ */
+@keyframes slideFrom{
+	from {width:0%; border-right: 0px solid rgba(255, 255, 255, 0.0);}
+	to {width: 36%; border-right: 5px solid rgba(255, 255, 255, 0.8);}
+}
+@keyframes slideTo{
+	from {width:36%; border-right: 5px solid rgba(255, 255, 255, 0.8);}
+	to {width: 0%;   border-right: 0px solid rgba(255, 255, 255, 0.0);}
+}
+@keyframes buttonSlideFrom{
+	from {left:0%;}
+	to {left: 36%;}
+}
+@keyframes buttonSlideTo{
+	from {left:36%;}
+	to {left: 0%;}
+}
+/* Animation of the left NEWS menu ________________________________________________________ */
+@keyframes slideNewsFrom{
+	from {width:0%; border-right: 0px solid rgba(255, 255, 255, 0.0);}
+	to {width: 22%; border-right: 5px solid rgba(255, 255, 255, 0.8);}
+}
+@keyframes slideNewsTo{
+	from {width:22%; border-right: 5px solid rgba(255, 255, 255, 0.8);}
+	to {width: 0%;   border-right: 0px solid rgba(255, 255, 255, 0.0);}
+}
+@keyframes buttonNewsSlideFrom{
+	from {left:0%;}
+	to {left: 22%;}
+}
+@keyframes buttonNewsSlideTo{
+	from {left:22%;}
+	to {left: 0%;}
+}
+
+.styles-Button{
+	background-image: url('/game/textures/button.png');
+}
+
+.submit-button{
+	background: url("/game/textures/button.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	font-weight: bold;
+	color: #000;
+	text-shadow: 0px 0px 8px white;
+	border: 0px;
+	padding: 5px 8px 5px 8px;
+	margin: 0;
+}
+.mainTitle{
+	animation: hue-rotate 10s linear infinite;
+}
+.new-user-button{
+	animation: hue-rotate 10s linear infinite;
+    background: url("/game/textures/newUserButton.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: 0px;
+}
+.play-button{
+	animation: hue-rotate 10s linear infinite;
+    background: url("/game/textures/playButton.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: 0px;
+}
+.play-button .new-user-button{
+	
+	padding: 5px 8px 5px 8px;
+	margin: 0;
+	cursor: pointer;
+	outline:none;
+}
+.play-button:hover{
+	margin: 5px;
+}
+.play-button:active{
+	margin: 0px;
+}
+@keyframes hue-rotate {
+  from {
+    filter: hue-rotate();
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.news-button{
+	margin: 0px;
+}
+.news-button:hover{
+	margin-top: 5px;
+}
+.new-user-button:hover{
+	margin: 5px;
+}
+.new-user-button:active{
+	margin: 0px;
+}
+.submit-button:hover{
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 0px 2px 8px #00ff00;
+}
+.submit-button:active{
+	padding: 4px 7px 4px 7px;
+}
+button{
+	position: absolute;
+	width: 30%;
+	height: auto;
+	left: 2%;
+	background: url("/game/textures/button1.png");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	font-size: 0.7em;
+	color: #000;
+	text-shadow: 0px 0px 8px white;
+	border: 0px;
+	padding: 5px 8px 5px 8px;
+	margin: 0;
+	font-family: 'Press Start 2P', cursive, 'Ruluko', sans-serif, "Trebuchet MS", Helvetica, sans-serif;
+	
+}
+button:hover {
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 0px 2px 8px #002233;
+}
+button:active {
+	padding: 4px 7px 4px 7px;
+	color: #0099ff;
+}
+/*SLIDERS*/
+.center-slider{
+	position: absolute;
+	left: 40%;
+	top: 10%;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 1.55px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10.9px;
+  cursor: pointer;
+  box-shadow: 3px 3px 4px rgba(0, 0, 86, 0.74), 0px 0px 3px rgba(0, 0, 112, 0.74);
+  background: rgba(231, 235, 249, 0.84);
+  border-radius: 0px;
+  border: 2.8px solid #7ec7db;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 4px 4px 0px rgba(110, 79, 61, 0.49), 0px 0px 4px rgba(126, 91, 70, 0.49);
+  border: 4.1px solid #4c94aa;
+  height: 14px;
+  width: 24px;
+  border-radius: 26px;
+  background: #cbeaff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -4.35px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.84);
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 10.9px;
+  cursor: pointer;
+  box-shadow: 3px 3px 4px rgba(0, 0, 86, 0.74), 0px 0px 3px rgba(0, 0, 112, 0.74);
+  background: rgba(231, 235, 249, 0.84);
+  border-radius: 0px;
+  border: 2.8px solid #7ec7db;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 4px 4px 0px rgba(110, 79, 61, 0.49), 0px 0px 4px rgba(126, 91, 70, 0.49);
+  border: 4.1px solid #4c94aa;
+  height: 14px;
+  width: 24px;
+  border-radius: 26px;
+  background: #cbeaff;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 10.9px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: rgba(170, 184, 234, 0.84);
+  border: 2.8px solid #7ec7db;
+  border-radius: 0px;
+  box-shadow: 3px 3px 4px rgba(0, 0, 86, 0.74), 0px 0px 3px rgba(0, 0, 112, 0.74);
+}
+input[type=range]::-ms-fill-upper {
+  background: rgba(231, 235, 249, 0.84);
+  border: 2.8px solid #7ec7db;
+  border-radius: 0px;
+  box-shadow: 3px 3px 4px rgba(0, 0, 86, 0.74), 0px 0px 3px rgba(0, 0, 112, 0.74);
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 4px 4px 0px rgba(110, 79, 61, 0.49), 0px 0px 4px rgba(126, 91, 70, 0.49);
+  border: 4.1px solid #4c94aa;
+  height: 14px;
+  width: 24px;
+  border-radius: 26px;
+  background: #cbeaff;
+  cursor: pointer;
+  height: 10.9px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: rgba(231, 235, 249, 0.84);
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.ptext{
+	font-size: 1.2em;
+	color: #eeeeee;
+	text-shadow: -2px 0 #111111, 0 2px #111111, 2px 0 #111111, 0 -2px #111111;
+}
+.fontOnly{
+	font-family: 'Press Start 2P', cursive, 'Ruluko', sans-serif, "Trebuchet MS", Helvetica, sans-serif;
+}
+table{
+	border-radius: 0px;
+	
+}
+th, td {
+	resize: both; 
+	overflow: hidden;
+}
+td {
+	cursor: pointer;
+}
+a{
+	font-family: 'Press Start 2P', cursive, 'Ruluko', sans-serif, "Trebuchet MS", Helvetica, sans-serif;
+}
+p{
+	font-size: 0.6em;
+	font-family: 'Press Start 2P', cursive, 'Ruluko', sans-serif, "Trebuchet MS", Helvetica, sans-serif;
+}

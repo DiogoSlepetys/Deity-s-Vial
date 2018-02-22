@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Deity's Vial</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				margin: 0px;
+				background-color: #777779;
+				overflow: hidden;
+			}
+		</style>
+		
+		<!--fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Ruluko" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+		
+		<link href="css/reset.css" rel="stylesheet">
+		
+		<link id="mainStylesheet" href="css/styles.css" rel="stylesheet">
+		
+		<!--Angular-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		
+		<script>
+		
+		//change CDN servers easily:
+		//var cdnServer = "http://localhost:7000";
+		var cdnServer = "http://localhost:8080";
+		
+		</script>
+		
+		<script>
+		
+		//redirect to a GET page, blocking submit buttons refreshing
+		if(window.location == "http://localhost:8000/game/threeRPG2.html" && !!window.chrome && !!window.chrome.webstore )//isChrome
+		{	window.location = "http://localhost:8000/game/threeRPG2.html?#";}
+		if(window.location == "http://localhost:8000/game/threeRPG2.html" && typeof InstallTrigger !== 'undefined' )//isFirefox
+		{	window.location = "http://localhost:8000/game/threeRPG2.html#";}
+			
+		
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function drag(ev) {
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+			console.log(ev.target.id);
+			
+			if(ev.target.id == "mainGame")
+			{
+				console.log("bau");
+				var elem = document.getElementById(ev.dataTransfer.getData("text"));
+				elem.parentNode.removeChild(elem);
+			}
+			if(ev.target.id == "itemDiv" && ev.target.childElementCount < 1){
+				var data = ev.dataTransfer.getData("text");
+				ev.target.appendChild(document.getElementById(data));
+			}
+			
+		}
+		
+		function cancelPropagation( event ){
+			event.stopPropagation()
+		}
+		var css = 0;
+		function swapCSS() {
+			
+			if(css == 0){
+				document.getElementById("mainStylesheet").href = "css/stylesCool.css"; css = 1; 
+			}
+			else{
+				document.getElementById("mainStylesheet").href = "css/styles.css"; css = 0;
+			}
+		}
+		
+		</script>
+		
+	</head>
+	<body>
+
+		<p id="debugText" class="ptext" style="font-size: 0.8em; position: fixed; top: 20%; float: left; display: block;">DEBUG ON...</p>
+		<!-- Login Form -->
+		<div id="loginScreen" style="visibility: visible;"><!-- visible /hidden -->
+			
+			<!-- BackGround -->
+			<div style="position: fixed; height: 100%; width: 100%; background-image: url('/game/textures/BGallpage2.png'); background-repeat: no-repeat; background-size: 100% 100%;">
+			</div>
+			
+			<!-- News Tab -->
+			<div id="menuNews" class="img-pixelated" style="position: fixed; top: 0px; left:0px; width: 22%; height: 100%; overflow: hidden; box-sizing: border-box; border: 0px solid black; background-image: url('/game/textures/menuBG2.png'); background-size: 100%; border-right: 5px solid rgba(0, 0, 0, 0.8);">
+				
+				<div style="position: relative; left:2%; top: 2%; width: 50%; padding-bottom: 16%; background-image: url('/game/textures/newsButtonTitle.png'); background-repeat: no-repeat; background-size: 100% 100%;"></div>
+				
+				<div class="transp-rounded-bg-blk" style="position: relative; left:2%; top: 3%; overflow:hidden; text-align: center; height: 25%; border: 2px solid black; width: 95%">
+					<p class="ptext" style="margin: 3%; font-size: 0.9em;">Check out the new hats!</p>
+					<img class="img-pixelated" src="/game/textures/hats.png" style="margin-left: auto; margin-right: auto; display: block; width: 70%;"></img>
+				</div>
+				<div class="transp-rounded-bg-blk" style="position: relative; left:2%; top: 4%; overflow:hidden; text-align: center; height: 30%; border: 2px solid black; width: 95%">
+					<p class="ptext" style="margin: 3%; font-size: 0.9em;">50% OFF on <br> MAGIC ROBES!</p>
+					<img class="img-pixelated" src="/game/textures/magicRobe.png" style="margin-left: auto; margin-right: auto; display: block; width: 50%;"></img>
+				</div>
+				<div class="transp-rounded-bg-blk" style="position: relative; left:2%; top: 5%; overflow:hidden; text-align: center; height: 25%; border: 2px solid black; width: 95%">
+					<p class="ptext" style="margin: 3%; font-size: 0.9em;">Map Extension Released!</p>
+					<img class="img-pixelated" src="/game/textures/DisplacementMap3.png" style="margin-left: auto; margin-right: auto; display: block; width: 50%;"></img>
+				</div>
+			</div>
+			
+			<!-- Open News Button -->
+			<div id="menuNewsOpen" class="img-pixelated news-button" style="position: fixed; top: 45%; left: 22%; width: 5.8%; height: 12%; background-image: url('/game/textures/newsButton.png'); background-repeat: no-repeat; background-size: 100% 100%; ">
+			</div>
+			
+			<!-- Change Style Button -->
+			<div id="changeStyle" onclick="swapCSS()" class="img-pixelated styles-Button" style="position: fixed; top: 45%; right: 0%; width: 5.8%; height: 12%; background-repeat: no-repeat; background-size: 100% 100%; ">
+			</div>
+			
+			<!-- Merchandising Tab 
+			<div id="menuAdds" class="img-pixelated" style="position: fixed; top: 0px; right:0px; width: 22%; height: 100%; overflow: hidden; box-sizing: border-box; border: 0px solid black; background-image: url('/game/textures/menuBG2.png'); background-size: 100%; border-left: 5px solid rgba(255, 255, 255, 0.8);">
+			<div>
+			-->
+			
+			<!-- Server Status-->
+			<div style="position: fixed; display: flex; align-items: flex-start; top: 95%; left: 53%; height: 5%; width: 20%; transform: translate(-50%, -50%);">
+				<div>
+					<p class="ptext" style="font-size: 0.8em;">Server Status  </p>
+				</div>
+				<div id="serverStatus" style="position: relative; display: block; border-radius: 50%; background-color: red; top: -10%; left: 5%; width: 1.2vw; height: 1.2vw;"></div>
+			</div>
+			
+			<!-- Footer link-->
+			<div style="position: fixed; display: flex; align-items: flex-start; bottom: 2%; right: 0%; width: 20%;">
+				<p class="ptext" style="margin: 2%; font-size: 0.6em;">Game By </p>
+				<a class="ptext" style="margin: 2%; font-size: 0.7em; color: #0088aa;" href="http://www.lunarblank.com">Lunar Blank</a>
+			</div>
+			
+			<div id="loginFrame"  onclick="cancelPropagation(event);" class="img-pixelated" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 25%; height: 35%; background-image: url('/game/textures/menuBG3.png'); background-repeat: no-repeat; background-size: 100% 100%; border-radius: 16px;">
+				
+				<img class="img-pixelated mainTitle" src="../Title-Main12.png" style="position: fixed; top: -50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: 62%;"></img>
+				
+				<p class="ptext" style="font-size: 1.4em; margin: 7.5%; text-align: center;"> Welcome!</p>
+				<p class="ptext" style="position: relative; top: 5%; font-size: 0.8em; margin: 2%; text-align: center;"> Please Login:</p>
+				<!--<img class="img-pixelated" src="/game/textures/leafParticle.png" style="position: fixed; top: 13%; left: 95%; transform: translate(-50%, -50%); width: auto; height: 45%;"></img>
+				-->
+				
+				<form id="loginForm">
+					<input id="userInput" class="fontOnly" type="text" placeholder="E-Mail" style="position: fixed; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 10%; background-color: #aaddff; color: #002244; border: 5px solid white; font-weight: bold; text-align:center; border-radius: 8px;"></input>
+					<input id="passInput" class="fontOnly" type="password" placeholder="Password" style="position: fixed; top: 75%; left: 50%; transform: translate(-50%, -50%); width: 75%; height: 10%; background-color: #aaddff; color: #002244; border: 5px solid white; font-weight: bold; text-align:center; border-radius: 8px;"></input>
+					<input type="button" value="" id="loginButton" class="play-button img-pixelated" style="position: fixed; top: 140%; left: 88%; transform: translate(-50%, -50%); width: 73%; height: 24%;"></input>
+					<input type="button" value="" id="newUserButton" class="new-user-button img-pixelated" style="position: fixed; top: 140%; left: 18%; transform: translate(-50%, -50%); width: 73%; height: 24%;"></input>
+				</form>		
+
+				<a class="ptext" style="position: absolute; top: 88%; left: 32%; font-size: 0.5em; text-align: center;" href="">Forgot My Login</a>
+			
+			</div>
+		</div>
+		
+		<!-- Warnning Screen -->
+		<div id="warnScreen" style="visibility: visible;"><!-- visible /hidden -->
+			
+			<div id="warnFrame"  onclick="cancelPropagation(event);" class="img-pixelated" style="position: fixed; top: -23%; left: 50%; transform: translate(-50%, -50%); width: 30%; height: 40%; background-image: url('/game/textures/menuBG2.png'); background-repeat: no-repeat; background-size:100%; border: 5px solid white; border-radius: 16px; background-color: #000000;">
+				<div style="margin: 10%;">
+					<p id="warnHeader" class="ptext"></p><br><br>
+					<p id="warnText" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);"></p>
+				</div>
+				<button value="" id="warnAccept" class="img-pixelated" style="position: fixed; top: 86%; left: 74%; transform: translate(-50%, -50%); width: 35%; height: 18%;">Continue</button>
+				<button value="" id="warnCancel" class="img-pixelated" style="position: fixed; top: 86%; left: 26%; transform: translate(-50%, -50%); width: 35%; height: 18%;" onclick='this.parentElement.style.animation = "warnSlideBack 1s forwards";'>Cancel</button>		
+			
+			</div>
+		</div>
+		
+		<!-- Create Account Screen -->
+		<div style="visibility: visible;"><!-- visible /hidden -->
+			
+			<div id="createAccScreen" onclick="cancelPropagation(event);" class="img-pixelated" style="position: fixed; top: 152%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background-image: url('/game/textures/menuBG2.png'); background-repeat: no-repeat; background-size:100%; border: 5px solid white; border-radius: 16px; background-color: #000000;">
+				
+				<!--<img src="../LunarBlankLogo.png" style="position: fixed; top: 30%; left: 76%; transform: translate(-50%, -50%); width: auto; height: 20%;"></img>-->
+				
+				<div style="position: fixed; top: 12%; left: 55%; width: auto; height: 40%;">
+					<p id="warnHeader" class="ptext" style="font-size: 0.6em; position: fixed; left: 46%; top: 12.8%;">Or...</p>
+					<p id="warnHeader" class="ptext">Use a social network!</p><br><br>
+					
+					<table style="width: 40%;">
+					<tr>
+						<img src="../LunarBlankLogo.png" style="width: auto; height: 60%;">
+					</tr>
+					<tr>
+						<img src="../LunarBlankLogo.png" style="width: auto; height: 60%;">
+					</tr>
+					</table>
+					<br>
+					<p class="ptext">Please secure your social <br>login with a password!</p><br><br>
+					
+					<table style="width: 100%;">
+						<td style="width: 50%;">
+							<p class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Password:</p>
+							<input type="password" class="fontOnly" placeholder="password" style="width: 100%; margin-bottom:1.4%; padding: 0.6%;"></input>
+							<p class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Confirm Password:</p>
+							<input type="password" class="fontOnly" placeholder="password" style="width: 100%; margin-bottom:1.4%; padding: 0.6%;"></input><br>
+						</td>
+						<td style="width: 50%;">
+							
+						</td>
+					</table>
+					
+					
+				</div>
+				
+				<div style="margin-top: 6%; margin-left: 10%; margin-bottom: 10%;">
+					<p class="ptext">Create New Account!</p><br><br>
+					<p id="createAccName" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Your Name:</p>
+					<input type="text" class="fontOnly" placeholder="Name" style="width: 40%; margin-bottom:1.4%; padding: 0.3%;"></input>
+					<p id="createAccMail" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Your E-Mail:</p>
+					<input type="text" class="fontOnly" placeholder="yourEmail@mail.com" style="width: 40%; margin-bottom:1.4%; padding: 0.3%;"></input>
+					<p id="createAccUserName" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Username:</p>
+					<input type="text" class="fontOnly" placeholder="Username" style="width: 40%; margin-bottom:1.4%; padding: 0.3%;"></input>
+					<p id="createAccPass" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Password:</p>
+					<input type="password" class="fontOnly" placeholder="password" style="width: 40%; margin-bottom:1.4%; padding: 0.3%;"></input>
+					<p id="createAccConfirmPass "class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Confirm Password:</p>
+					<input type="password" class="fontOnly" placeholder="password" style="width: 40%; margin-bottom:1.4%; padding: 0.3%;"></input><br>
+					
+					<table style="width: 40%;">
+					<tr>
+						<td>
+						<label class="myCheckbox">
+							<input id="creatAccCheckAgreement" type="checkbox"/> 
+							<span></span>
+						</label>
+						<td style="vertical-align: top;">
+						<p class="ptext" style="margin-left:3%; line-height: 350%; font-size: 0.7em; "> "I agree with the terms & conditions." </p>
+					<tr>
+						<td>
+						<label class="myCheckbox">
+							<input id="creatAccCheckMail" type="checkbox"/> 
+							<span></span>
+						</label>
+						<td style="vertical-align: top;">
+						<p class="ptext" style="margin-left:3%; line-height: 350%; font-size: 0.7em; "> "I want to receive news on my e-mail!" </p>
+					</table>
+					
+					<button id="createAccButton" class="img-pixelated" style="width: 16%; height: 10%; left: 29%; margin: 2%;" onclick='this.parentElement.parentElement.style.animation = "warnAccSlideBack 1s forwards";'>Create!</button>		
+			
+					<button id="cancelAccButton" class="img-pixelated" style="width: 16%; height: 10%; left: 8%; margin: 2%;" onclick='this.parentElement.parentElement.style.animation = "warnAccSlideBack 1s forwards";'>Cancel</button>		
+			
+				</div>
+
+			</div>
+		</div>
+		
+		<!-- Item Info Floater -->
+		<div id="itemFloater" style="visibility: hidden;"><!-- visible /hidden -->
+			
+			<div onclick="cancelPropagation(event);" class="img-pixelated" style="position: fixed; top: 23%; left: 45%; width: 25%; height: 50%; background-image: url('/game/textures/menuBG2.png'); background-repeat: no-repeat; background-size:100%; border: 5px solid white; border-radius: 16px; background-color: #000000;">
+				<div style="margin: 10%;">
+					<p id="itemFloaterName" class="ptext">Upside-Down Dandelion</p><br><br>
+					<img src="" id="itemFloaterImage" style="position: relative; height: 70%; width: auto; float: left; margin-right: 10%;">
+					<p id="itemDescription" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">this is a <span style="color: #ff0000">divine</span> item!</p><br>
+					<p id="itemInfo1" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Mana Restored: 5000</p>
+					<p id="itemInfo2" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">HP Restored: 10000</p>
+					<p id="itemInfo3" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0);">Sell price: 200000</p><br>
+					<p id="itemInfo4" class="ptext" style="font-size: 0.63em; line-height: 150%; transform: translate3d(0,0,0); transform: translateZ(0); color: #6699ff">Alchemy elements:</p><br>
+					<p id="itemInfo5" class="ptext" style="font-size: 0.63em; line-height: 0%; transform: translate3d(0,0,0); transform: translateZ(0);"> 20.0% <span id="itemInfoElement" style="color: #ffff00">Fire</span></p><br>
+					<p id="itemInfo6" class="ptext" style="font-size: 0.63em; line-height: 0%; transform: translate3d(0,0,0); transform: translateZ(0);"> 30.0% <span id="itemInfoElement2" style="color: #bbbbbb">Air</span></p><br>
+					<p id="itemInfo7" class="ptext" style="font-size: 0.63em; line-height: 0%; transform: translate3d(0,0,0); transform: translateZ(0);"> 45.0% <span  id="itemInfoElement3" style="color: #ff00ff">Deity's Breath</span></p>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Char Selection -->
+		<div id="charScreen" style="visibility: hidden;"><!-- visible /hidden -->
+			
+			<div id="loginFrame"  onclick="cancelPropagation(event);" class="img-pixelated" style="position: fixed; top: 0%; left: 0%;  width: 27%; height: 100%; display: block; box-sizing: border-box; background-image: url('/game/textures/menuBG2.png'); background-repeat: no-repeat; background-size:100%; border-right: 5px solid black; background-color: rgba(0,0,0,1.0);">
+				
+				<div style="position: relative; top: 8%; left: 3%; width: 94%; overflow:hidden; margin: 0; padding: 0; border-spacing: 20px;">
+				
+				<table style="width: 100%; margin: 0; padding: 0; border-spacing: 0 20px; border-collapse: separate;">
+				  <tr style="background-color: black;">
+					<th><p class="ptext" style="text-align: left; margin: 2%;">Name</p></th>
+					<th><p class="ptext">LVL</p></th> 
+				  </tr>
+				  <tr onmouseover="rotateTowards(1)">
+					<td style="width= 90%; overflow: hidden;"><p class="ptext" id="charName1" style="margin: 2%; font-size: 0.9em;">name1</p></td>
+					<td style="width= 10%; overflow: hidden;"><p class="ptext" id="charLvl1" style="text-align: center; font-size: 0.9em;">lvl1</p></td>
+				  </tr>
+				  <tr onmouseover="rotateTowards(2)">
+					<td style="overflow: hidden;"><p class="ptext" id="charName2" style="margin: 2%; font-size: 0.9em;">name2</p></td>
+					<td style="overflow: hidden;"><p class="ptext" id="charLvl2" style="text-align: center; font-size: 0.9em;">lvl2</p></td>
+				  </tr>
+				  <tr onmouseover="rotateTowards(3)">
+					<td style="overflow: hidden;"><p class="ptext" id="charName3" style="margin: 2%; font-size: 0.9em;">name3</p></td>
+					<td style="overflow: hidden;"><p class="ptext" id="charLvl3" style="text-align: center; font-size: 0.9em;">lvl3</p></td>
+				  </tr>
+				  <tr onmouseover="rotateTowards(4)">
+					<td style="overflow: hidden;"><p class="ptext" class="ptext" id="charName4" style="margin: 2%; font-size: 0.9em;">name4</p></td>
+					<td style="overflow: hidden;"><p class="ptext" id="charLvl4" style="text-align: center; font-size: 0.9em;">lvl4</p></td>
+					
+					<!--
+					<td><button style="position: relative; left: 25%; width: 50%; height: 100%;">New Char!</button></td>
+					<td style="overflow: hidden;"><p class="ptext" id="charLvl4" style="text-align: center; font-size: 0.9em;">...</p></td>
+					-->
+				  </tr>
+				</table>
+				
+				</div>
+				
+				<button style="left: 7%; top: 92.3%; width: 38%; height: 5%;" onclick="deleteChar()">Delete</button>
+				<button style="left: 54%; top: 92.3%; width: 38%; height: 5%;" onclick="selectChar()">Select</button>
+
+			</div>
+		</div>
+		
+		<!-- All In-Game interface -->
+		<div id="gameElements" style="visibility: hidden;"><!--Make visible when user log in with his char-->
+		
+			<div id="menu" class="img-pixelated" style="position: fixed; top: 0px; left:0px; width: 0%; height: 100%; overflow: hidden; box-sizing: border-box; border: 0px solid black; background-image: url('/game/textures/menuBG2.png'); background-size: 100%; ">
+				
+				<!--Buttons menu-->
+				<div style="position: relative; left:2%; top:3%; overflow:hidden; height:18%; width:95%; display: flex; margin: 0;">
+					<div style="width:100%; margin: 1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconITEM.png" class="img-pixelated iconstab"></img>
+					</div>
+					<div style="width:100%; margin: 1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconCLAN.png" class="img-pixelated iconstab"></img>
+					</div>
+					<div style="width:100%; margin: 1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconMAGIC.png" class="img-pixelated iconstab"></img>
+					</div>
+					<div style="width:100%; margin: 1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconCHAR.png" class="img-pixelated iconstab"></img>
+					</div>
+					<div style="width:100%; margin: 1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconCONF.png" class="img-pixelated iconstab"></img>
+					</div>
+					<div style="width:100%; margin: 1%; padding-right:1%;" onmouseover="changeBG(this)" onmouseout="backBG(this)" onclick="changeTab(this)">
+						<img src="textures/iconCONF.png" class="img-pixelated iconstab"></img>
+					</div>
+				</div>
+				
+				<!-- volume and config-->
+				<div class="transp-rounded-bg" style="position: relative; left:2%; top: 8%; overflow:hidden; text-align: center; height: 10%; border: 2px solid white; width: 95%">
+				
+					<div style="position: absolute; left:0%; top: 10%; height: auto; width: 50%">
+					<button id="musicOffButton">MUTE</button>
+					<input class="center-slider" id="sliderVolume" type="range" min="0" max="1" step="0.02" style="width: 50%"/>
+					</div>
+					<div style="position: absolute; left:50%; top: 10%; height: auto; width: 50%">
+					<button id="normalMapButton">NMAP</button>
+					<input class="center-slider" id="sliderVolume" type="range" min="0" max="1" step="0.05" style="width: 50%"/>
+					</div>
+					<div style="position: absolute; left:0%; top: 50%; height: auto; width: 50%">
+					<button id="load">NULL</button>
+					<input class="center-slider" id="sliderLight" type="range" min="0" max="1" step="0.05" style="width: 50%"/>
+					</div>
+					<div style="position: absolute; left:50%; top: 50%; height: auto; width: 50%">
+					<button id="unload">NULL</button>
+					<input class="center-slider" id="sliderVolume" type="range" min="0" max="1" step="0.05"style="width: 50%"/>
+					</div>
+					
+				</div>
+				
+				<!--armor slots-->
+				<div id="armorSlotsFrame" class="armor-slots-frame" style="position: absolute; left:2%; bottom: 50%; overflow:hidden; margin: 0 auto; text-align:center; border: 2px solid white; width: 37%; ">
+					
+					<div id="armor-row-1" style="position: absolute; top:0%; width: 100%">
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+					<div id="armor-row-2" style="position: absolute; top:33%; width: 100%">
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+					<div id="armor-row-2" style="position: absolute; top:66%; width: 100%">
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="armor-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+				</div>
+				
+				<!--Item Slots-->
+				<div id="itemSlotsFrame" class="item-slots-frame" style="position: absolute; left:2%; bottom: 2%; overflow:hidden; margin: 0 auto; text-align:center; border: 2px solid white; width: 95%">
+					
+					<div id="item-row-1" style="position: absolute; top:0%; width: 100%">
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)" style="position: relative;">
+						
+							<div class="itemOnSlot" id="UpsideDownFlower" draggable="true" ondragstart="drag(event)" onmouseover="showItemInfo(this.firstElementChild)" onmouseout="hideItemInfo()" ondrag="hideItemInfo()" style="position: relative; float: center; width:92%; padding-bottom: 92%; display: block; border: 3px solid white; border-radius: 22%; background-color: rgba(229,229,229, 0.5)"> 
+								<img src="textures/flower1.png" style="position: relative; height: 100%; width: 100%; pointer-events: none; float: left;">
+								<div style="position: absolute; right: -13%; top: 69%; padding-bottom: 30px; height: 42%; width: 55%; margin: 0; padding: 0; line-height: 0; overflow:hidden; display: block; background-color: white; border-radius: 25%">
+								<p style="font-size: 0.7em; padding-top: 40%; color: #222222;">23</p>
+								</div>	
+							</div>
+							
+						</div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)">
+							
+							<div class="itemOnSlot" id="GreenLeafballs" draggable="true" ondragstart="drag(event)" onmouseover="showItemInfo(this.firstElementChild)" onmouseout="hideItemInfo()" ondrag="hideItemInfo()" style="position: relative; float: center; width:92%; padding-bottom: 92%; display: block; border: 3px solid white; border-radius: 22%; background-color: rgba(229,229,229, 0.5)"> 
+								<img src="textures/leafParticle.png" style="position: relative; height: 100%; width: 100%; pointer-events: none; float: left;">
+								<div style="position: absolute; right: -13%; top: 69%; padding-bottom: 30px; height: 42%; width: 55%; margin: 0; padding: 0; line-height: 0; overflow:hidden; display: block; background-color: white; border-radius: 25%">
+								<p style="font-size: 0.7em; padding-top: 40%; color: #222222;">23</p>
+								</div>	
+							</div>
+							
+						</div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+					<div id="item-row-2" style="position: absolute; top:24%; width: 100%">
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+					<div id="item-row-3" style="position: absolute; top:48%; width: 100%">
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+						<div id="itemDiv" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					</div>
+				</div>	
+			</div>
+			
+			<!-- Open Menu Button -->
+			<div id="menuOpen" class="img-pixelated" style="position: fixed; top: 45%; left: 0%; width: 4.6%; height: 17.6%; background-image: url('/game/textures/ui-bag2.png'); background-repeat: no-repeat; background-size: 100% 100%;">
+			</div>
+			
+			<!--Status HP Bar -->
+			<div id="hpBarBg" class="img-pixelated" style="position: fixed; top: 0%; right: 0%; width: 28%; height: 10%; z-index: 10;">
+				<div style="position: absolute; width: 100%; height: 100%; background-image: url('/game/textures/ui-statusBar2.png'); background-repeat: no-repeat; background-size: 100% 100%; text-align: center; line-height: 180%">
+					<!-- HP -->
+					<div style="display: block; background-color: transparent; position: absolute; width: 37%; height: 40%; left: 9%; top: 20%; z-index: 1;">
+						<div style="display: block; background-color: white; position: absolute; width: 90%; height: 25%; top: 20%; left: 5%; opacity: 0.6; border-radius: 4px;"></div>
+						<p style="color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">HP: 20/20</p>
+					</div>
+					<div id="hpBar" style="display: block; background-color: rgba(255, 140, 30, 1); position: absolute; width: 37%; height: 40%; left: 9%; top: 20%; z-index: -1;">
+						<div style="display: block; background-color: white; position: absolute; width: 90%; height: 25%; top: 20%; left: 5%; opacity: 0.6; border-radius: 4px;"></div>
+					</div>
+					<!-- Magic -->
+					<div style="display: block; background-color: transparent; position: absolute; width: 37%; height: 40%; left: 54%; top: 20%; z-index: 1;">
+						<div style="display: block; background-color: white; position: absolute; width: 90%; height: 25%; top: 20%; left: 5%; opacity: 0.6; border-radius: 4px;"></div>
+						<p style="color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">MP: 60/60</p>
+					</div>
+					<div id="mPBar" style="display: block; background-color: rgba(0, 138, 110, 1); position: absolute; width: 37%; height: 40%; left: 54%; top: 20%; z-index: -1;">
+						<div style="display: block; background-color: white; position: absolute; width: 90%; height: 25%; top: 20%; left: 5%; opacity: 0.6; border-radius: 4px;"></div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Chat Area -->
+			<textarea id="chatMessages" class="chat-window" style="position: fixed; bottom: 4%; right: 0%; width: 28%; opacity: 0.5;"></textarea>
+			<div id="chatWindow" style="position: fixed; bottom: 0%; right: 0%; width: 28.5%; height: 4%; opacity: 0.9; background-image: url('/game/textures/treeBark1.png'); background-repeat: no-repeat; background-size:100%;">
+				<div style="position: absolute; width: 100%; left: 2%;">
+				<form action="#">
+				<input id="chatInput" type="text" ondrop="return false;" style="width: 75%"></input>
+				<input type="submit" id="chatButton" class="submit-button" style="width: 20%" value="SEND"></input>
+				</form>
+				</div>
+			</div>
+			
+		</div><!-- End In-Game Elements -->
+		
+		<!--Audio Holder-->
+		<audio id="musicPlayer" preload="auto"></audio>
+		
+		<!--GameObjects-->
+        <script src="classes/GameObjects.js"></script>
+		
+		<!--Map Loader-->
+		<script src="classes/MapLoaderTyped.js"></script>
+		
+		<!--Async Loader-->
+		<script src="classes/AsyncLoader.js"></script>
+		
+		<!--Login Scene-->
+        <script src="classes/LoginScreen.js"></script>
+		
+		<!--Chunk Manager-->
+        <script src="classes/ChunkManager.js"></script>
+		
+		<!--Assets Manager-->
+        <script src="classes/AssetsManager.js"></script>
+        
+		<!--Worker Map Loader-->
+        <script src="classes/WorkerMapLoader.js"></script>
+		
+		<!--Player Model Loader-->
+        <script src="classes/PlayerModelLoader.js"></script>
+		
+        <!--A* Graph-->
+		<script src="../build/pathfinding-browser.js"></script>
+		
+        <!--ThreeJS library-->
+		<script src="../build/three.js"></script>
+		
+		<!--FPS monitor-->
+		<script src="../build/stats.js"></script>
+		
+		<!--Map Tiles Document-->
+		<script src="maps/Grass1.js"></script>
+		
+		<!--Shaders File-->
+		<script src="../shaders/OuterGlow.js"></script>
+		
+		<script>
+							
+			//the fps meter
+			var stats = new Stats();
+			stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+			document.body.appendChild( stats.dom );
+			
+			//the raycasting variables
+			var raycaster = new THREE.Raycaster();
+			var mouse = new THREE.Vector2();
+			var clickPosition = new THREE.Vector3;
+			
+			//is a char selected?
+			var charSelected = false;
+			//the char has an in-game ID
+			var charSelectedID = 0;
+			
+			//char caroussel
+			var carousselChars = null;
+			
+			//fairy login
+			var loginLight;
+			var fairyMesh;
+			var fLights = new Float32Array(3);
+			
+			//particle login
+			var logParticleMat;
+			var logParticleGrassMat;
+			
+			//caroussel rot
+			var chaRotation = 0;
+			
+			var loginScene;
+			var loginCamera;
+			
+			//audio
+			var gainNode;
+			
+			//warn dialog screen
+			var warnScreen = document.getElementById("warnFrame");
+			
+			//movement
+			var executePath = false;
+			var charVel = new THREE.Vector3(0,0,0);
+            var trajPoints = 0;
+			var dist = 0;
+			var playerPos;
+			
+			//intersect test
+			var colMesh;
+			
+			//login
+			var isLoggedIn = false;
+			
+			//graph
+			var matrixGrid = [];
+            var grid = [];
+            var finder = [];
+            var gridBackup = [];
+            var path = [];
+			var path2 = [];
+            
+			//fairy light
+			var fLight;
+			
+			//global light
+			var aLightIntensity = 0.4;
+			
+			//floaty spores
+			var pFloatySystem;
+			
+			var tileGeometries = [];
+			var tileMeshes = [];
+			var tiles2Raycast = [];
+			var textures = [];
+			var camera, scene, renderer;
+			var mesh, marmesh, dirPointer, mapMesh;
+			var wFront, wBack, rotLeft, rotRight = "false";
+			var aluV, aluS;
+			var playerTex;
+			
+			//chars
+			var charsArray = [];
+			
+			//char anim
+			var animFrame = 0;
+			var animDirec = 0;
+            
+			//debug texts
+			var debugText = [];
+			
+			//camera
+			var zoomMultiplier = 0;
+			var oldEvent = 0;
+			
+            //clocks
+            var time2Render = 0;
+            var time2Physic = 0;
+			var time2Animat = 0;
+			var time2Net    = 0;
+			
+			//kleb
+			var klebMesh;
+			
+			//sun direction
+			var addSun = 0;
+			
+			//particle system
+			var myParticleMat;
+			var particleGeometry;
+			var myLeavesMat;
+			var myLightMat
+			var lights = new Float32Array(3);
+			
+			//kleber texture
+			var klebTex;
+			
+			//menu
+			var menuEnabled = false;
+			
+			//sin cos floater counter
+			var sinPlus = 0;
+			
+			//socket
+			var mySocket;
+			var sendPos = false;
+			
+			//testPart
+			var partMesh;
+			var ticleMater;
+			
+			//chunk manager
+			var chunkManager;
+			var playerCurrentChunk = 0;
+			
+			//program
+			init();
+			initLights();
+			loadLoginScene();
+			animate();
+			
+			//animate();//loop
+            
+			//loading sound into the created audio context
+			function loadSound()
+			{
+				// set the audio file's URL
+				var audioURL='music/spores.ogg';
+
+				//creating a new request
+				var request = new XMLHttpRequest();
+				request.open("GET",audioURL,true);
+				request.responseType= 'arraybuffer';
+				request.onload = function(){
+
+					//take the audio from http request and decode it in an audio buffer
+					context.decodeAudioData(request.response, function(buffer){
+					  audioBuffer = buffer;
+					  console.log(audioBuffer);
+					  if(audioBuffer){  // check here
+					    gainNode = context.createGain();
+						gainNode.gain.value = 0.1; //change to 0.5
+						playSound(0);
+					  }
+					});
+
+				};
+
+				request.send();
+
+			}
+
+			//playing the audio file
+			function playSound(offset) {
+
+				//creating source node
+				var source = context.createBufferSource();
+				//passing in file
+				source.buffer = audioBuffer;
+
+				//start playing
+				source.connect(context.destination);  // added
+				source.connect(gainNode);
+				gainNode.connect(context.destination);
+				
+				source.start(0, offset);
+				
+				//loop
+				source.addEventListener('ended', function() 
+				{
+					console.log("ended");
+					playSound(20.0);
+				}, false);
+				
+				console.log('playing');
+
+			}
+			
+			
+			
+			function init() {
+
+				//Initialize Audio System
+				try{
+					window.AudioContext = window.AudioContext || window.webkitAudioContext;
+					context = new AudioContext();
+				}
+				catch(e)
+				{
+					alert("Your browser doesn't support Web Audio API! Try updating your browser if you are a Chrome or a Firefox user!");
+				}
+				
+				loadSound();
+				
+				var charCount = 0;
+				//Open Connection to server
+				mySocket = new WebSocket("ws://dellianapptest.ddns.net:8887");// ws: unsafe socket, wss: safe socket "ws://192.168.42.28:8887"
+				mySocket.onopen = function()
+                {
+                    // Web Socket is connected, send data using send()
+					console.log("connected!");
+					document.getElementById("serverStatus").style.backgroundColor = "green";
+                    mySocket.send("Socket Connected Successfully!");
+                };
+				mySocket.onmessage = function (event) 
+                { 
+                    var received_msg = event.data;
+					console.log(received_msg);
+					
+					var split = received_msg.split(":");
+					
+					if(split[0] == "iC"){ //user received his characters! let's open char select screen:	
+						
+						if(charCount == 0){
+							document.getElementById("charName1").innerHTML = split[2]; charCount++;
+							document.getElementById("charLvl1").innerHTML = split[7];
+							charsArray.push(split);
+						}
+						else if(charCount == 1){
+							document.getElementById("charName2").innerHTML = split[2]; charCount++;
+							document.getElementById("charLvl2").innerHTML = split[7];
+							charsArray.push(split);
+						}
+						else if(charCount == 2){
+							document.getElementById("charName3").innerHTML = split[2]; charCount++;
+							document.getElementById("charLvl3").innerHTML = split[7];
+							charsArray.push(split);
+						}
+						else if(charCount == 3){
+							document.getElementById("charName4").innerHTML = split[2]; charCount++;
+							document.getElementById("charLvl4").innerHTML = split[7];
+							charsArray.push(split);
+							
+							document.getElementById("loginScreen").style.visibility = "hidden";
+						
+							document.getElementById("charScreen").style.visibility = "visible";
+						
+							isLoggedIn = true;
+							
+							var p = new PlayerModelLoader();
+							p.loadCharArray(charsArray);
+						}
+						//old ////// message: iC:id:name:eqp:eqp:eqp:eqp:level:x:y:sex:hair:hcolor:str:agi:dex:int:luck
+						//           message: 0  1  2    3    4   5   6   7    8 9  10  11    12    13  14  15  16  17
+						
+					}
+					if(received_msg == "Logou"){
+						console.log("Characters Request Sent!");
+						mySocket.send('c');
+						//load char selection screen
+						//charSelected = true;
+					}
+					if(received_msg == "Invalido"){
+					
+						document.getElementById("warnHeader").innerHTML = "Invalid Login!";
+						document.getElementById("warnText").innerHTML = "Verify your login info. If you cannot log in, click: 'Forgot my login'.";
+						warnScreen.style.animation = "warnSlide 1s forwards";
+					}
+					
+                };
+			
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+
+				scene = new THREE.Scene();
+				
+				chunkManager = new ChunkManager();
+				
+				//klebinho test//////////////
+				var klebGeometry = new THREE.PlaneBufferGeometry( 20, 20 );
+				
+				klebTex = new THREE.TextureLoader().load( 'textures/klebinho1.png' );
+				klebTex.magFilter = THREE.NearestFilter;
+				klebTex.minFilter = THREE.LinearMipMapLinearFilter;
+				
+				klebTex.repeat.x = klebTex.repeat.y = 0.16667;
+				klebTex.offset.x = klebTex.offset.y = 0.8333;
+				
+				var klebMat = new THREE.MeshBasicMaterial( { map: klebTex, transparent: true, opacity: 1, depthWrite: false } );
+				klebMesh = new THREE.Mesh( klebGeometry, klebMat );
+				scene.add( klebMesh );
+				
+				klebMesh.position.x = 340;
+				klebMesh.position.y = -10;
+				klebMesh.position.z = 260;	
+				//klebinho end //////////////
+				
+				
+				
+				//buffered particle generation
+				var partPlanes = new THREE.BufferGeometry();
+				var xyzArrayPart = [];
+				var uvArrayPart = [];
+				var normArrayPart = [];
+				var xyzMiddlePart = [];
+				var pSize = 15;
+				var pRadius = 80;
+				for(var i = 0; i < 10; i++){
+					
+					for(var j = 0; j < 10; j++){
+						
+						var k = Math.random()* pRadius - pRadius/2;
+						var l = Math.random()* pRadius - pRadius/2;
+						var m = Math.random()* 40 - 20;
+					
+						var xz = [ [k, l], [k+pSize, l+pSize] ];//rnd position x z
+						
+						var uv = [ [0], [1] ];
+						
+					
+						xyzArrayPart.push(xz[0][0], m, xz[0][1], xz[0][0], m, xz[1][1], xz[1][0], m, xz[0][1]);
+						xyzArrayPart.push(xz[0][0], m, xz[1][1], xz[1][0], m, xz[1][1], xz[1][0], m, xz[0][1]);
+						
+						uvArrayPart.push(0,1,0,0,1,1,0,0,1,0,1,1);
+						
+						normArrayPart.push(0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0);
+						
+						k += pSize/2; l+= pSize/2;
+						xyzMiddlePart.push(k, m, l,k, m, l,k, m, l,k, m, l,k, m, l,k, m, l);
+					}
+				}
+				var f32posP = new Float32Array(xyzArrayPart);
+				var posBufferP = new THREE.BufferAttribute(f32posP, 3);
+				var f32uvP = new Float32Array( uvArrayPart );
+				var uvBufferP = new THREE.BufferAttribute(f32uvP, 2);
+				var f32normP = new Float32Array( normArrayPart );
+				var normBufferP = new THREE.BufferAttribute(f32normP, 3);
+				var f32xyzMP = new Float32Array( xyzMiddlePart );
+				var mpBuffer = new THREE.BufferAttribute(f32xyzMP, 3);
+				
+				partPlanes.addAttribute("position", posBufferP);
+				partPlanes.addAttribute("normal", normBufferP);
+				partPlanes.addAttribute("uv", uvBufferP);
+				partPlanes.addAttribute("centers", mpBuffer);
+				
+				ticleMater = new ParticlePlaneMaterial('textures/leafParticle1.png');
+				ticleMater.side = THREE.DoubleSide;
+				partMesh = new THREE.Mesh( partPlanes, ticleMater );
+				
+				scene.add(partMesh);
+				partMesh.position.z = 380;
+				partMesh.position.x = 390;
+				partMesh.position.y = 50;//70
+				partMesh.rotation.z = 1.8;
+				partMesh.rotation.x = 0.3;
+				partMesh.castShadow = true;
+				//partMesh.castShadowSide = THREE.FrontSide;
+				partMesh.customDepthMaterial = new ParticleDepthMaterial('textures/leafParticle1.png');
+				//partMesh.customDepthMaterial.side = THREE.BackSide;
+
+				//plane particle test end //////////////
+				
+				
+				
+				
+				//player test
+				playerTex = new THREE.TextureLoader().load( 'textures/aluvSprites.png' );
+				
+				playerTex.repeat.x = 0.125;
+				playerTex.repeat.y = 0.09375;
+				playerTex.offset.x = 0.0;
+				playerTex.offset.y = 0.4375;
+				
+				var shadowTex = new THREE.TextureLoader().load( 'textures/shadow.png' );
+				var pointrTex = new THREE.TextureLoader().load( 'textures/pointer.png' );
+				pointrTex.magFilter = THREE.NearestFilter;
+				pointrTex.minFilter = THREE.LinearMipMapLinearFilter;
+				playerTex.magFilter = THREE.NearestFilter;
+				playerTex.minFilter = THREE.LinearMipMapLinearFilter;
+				var playerMat = new THREE.MeshBasicMaterial( { map: playerTex, transparent: true, opacity: 1, depthWrite: false } );
+				var shadowMat = new THREE.MeshBasicMaterial( { map: shadowTex, transparent: true, opacity: 0.5 , depthWrite: false, color: 0x000000 } );
+				var pointrMat = new THREE.MeshBasicMaterial( { map: pointrTex, transparent: true, opacity: 1 , depthWrite: false } );
+				var playerGeometry = new THREE.PlaneBufferGeometry( 20, 30 );
+				var pointrGeometry = new THREE.PlaneBufferGeometry( 20, 20 );
+				var shadowGeometry = new THREE.PlaneBufferGeometry( 16, 16 );
+				aluV = new THREE.Mesh( playerGeometry, playerMat );
+				aluS = new THREE.Mesh( shadowGeometry, shadowMat );
+				dirPointer = new THREE.Mesh( pointrGeometry, pointrMat );
+				scene.add(dirPointer);
+				//scene.add(aluS);
+				scene.add(aluV);
+				aluS.rotation.x = -Math.PI/2;
+				aluS.position.y -= 14;
+                aluV.position.x = 2600;
+                aluV.position.z =1800;//300
+				aluV.position.y = -5;
+				aluV.add(aluS);
+				dirPointer.position.y -= 18;
+				dirPointer.rotation.x = -Math.PI/2;
+               
+                //tree test
+				/*
+				new THREE.ObjectLoader().load( 'models/commonTrunk.js', function ( object ) {
+					object.traverse( function ( o ) {
+					if ( o.type == "Mesh" && o.material && ! o.material.transparent ) {
+					o.material.side = THREE.DoubleSide;
+					}
+					var barkTex = new THREE.TextureLoader().load( 'textures/treeBark1.png' );
+					var barkTex2 = new THREE.TextureLoader().load( 'textures/treeBark2.png' );
+					barkTex.magFilter = THREE.NearestFilter;
+					barkTex.minFilter = THREE.LinearMipMapLinearFilter;
+					var material = new THREE.MeshPhongMaterial({
+                     map: barkTex, shininess: 0.6});
+					material.normalMap = barkTex2;
+					var glowMat = new OutGlowMaterial( new THREE.Color(0x00ffff));
+					var meshe = new THREE.Mesh(o.geometry, material);
+					meshe.scale.x = meshe.scale.y = meshe.scale.z = 16;
+					meshe.position.y -= 50;
+					meshe.position.x += 400;
+					meshe.position.z += 200;
+					scene.add( meshe );
+					} );
+				} );
+				var treeShadow = aluS.clone();
+				scene.add(treeShadow);
+				treeShadow.position.x = 400;
+				treeShadow.position.z = 200;
+				treeShadow.scale.x = treeShadow.scale.y = 5;
+				//end tree
+				*/
+				//col box
+				/*
+					var collisionBox = new THREE.BoxBufferGeometry(20,20,20);
+					//var tmat = new THREE.ShadowMaterial({ map: 'textures/leafParticle1.png'});
+					var tmat = new ParticleMaterial('textures/leafParticle1.png');
+					var materiarray = [tmat, playerMat, playerMat, playerMat, playerMat, playerMat];
+					//var tmat = new THREE.MeshBasicMaterial({opacity: 0.2});
+					//collisionBox.groups = [{count:3, materialIndex:0, start:0}, {count:3, materialIndex:1, start:3}, {count:3, materialIndex:0, start:6}]; 
+					
+					colMesh = new THREE.Mesh(collisionBox, materiarray);
+					colMesh.castShadow = true;
+					scene.add(colMesh);
+					colMesh.position.x = 400;
+					colMesh.position.y = -10;
+					colMesh.position.z = 240;
+				*/	
+				//end col box
+			
+				//pillar
+				/*
+				new THREE.ObjectLoader().load( 'models/pillar.js', function ( object ) {
+					object.traverse( function ( o ) {
+					if ( o.type == "Mesh" && o.material && ! o.material.transparent ) {
+					o.material.side = THREE.DoubleSide;
+					}
+					var barkTex = new THREE.TextureLoader().load( 'textures/pillar1.png' );
+					var barkTex2 = new THREE.TextureLoader().load( 'textures/treeBark2.png' );
+					barkTex.magFilter = THREE.NearestFilter;
+					barkTex.minFilter = THREE.LinearMipMapLinearFilter;
+					barkTex2.magFilter = THREE.NearestFilter;
+					barkTex2.minFilter = THREE.LinearMipMapLinearFilter;
+					var material = new THREE.MeshLambertMaterial({
+                     map: barkTex});
+					material.normalMap = barkTex2;
+					var glowMat = new OutGlowMaterial( new THREE.Color(0x00ffff));
+					var meshe = new THREE.Mesh(o.geometry, material);
+					meshe.scale.x = meshe.scale.y = meshe.scale.z = 10;
+					meshe.position.y -= 20;
+					meshe.position.x += 640;
+					meshe.position.z += 200;
+					meshe.rotation.y = 1.8;
+					scene.add( meshe );
+					var t = meshe.clone();
+					t.position.z = 380;
+					scene.add(t);
+					} );
+				} );
+				*/
+				
+				//tile system 3/////////////////////////////
+				/*
+				var mapPlane = new THREE.BufferGeometry();
+				
+				var mapNormalMap = new THREE.TextureLoader().load( 'textures/NormalMap.png' );
+				mapNormalMap.wrapS = mapNormalMap.wrapT = THREE.ClampToEdgeWrapping;
+				mapNormalMap.magFilter = THREE.NearestFilter;
+				mapNormalMap.minFilter = THREE.LinearMipMapLinearFilter;
+																
+				var mapTexture = new THREE.TextureLoader().load( 'textures/grassBeach512-2.png' );
+				mapTexture.wrapS = mapTexture.wrapT = THREE.ClampToEdgeWrapping;
+				mapTexture.magFilter = THREE.NearestFilter;
+				mapTexture.minFilter = THREE.LinearMipMapLinearFilter;
+				
+				//normal map cabable material
+				var mapMaterial = new THREE.MeshPhongMaterial( { map: mapTexture, shininess: 1 } );
+				var mapMaterialMob = new THREE.MeshBasicMaterial( {map: mapTexture} );
+				//lay down a 64x64 tiles map
+				var count = 0;
+				var normArray = [];
+				var xyzArray = [];
+				var uvArray = [];
+				var idxArray = [];
+				var tx, ty;
+				for(var i = 0; i < 64; i++){
+					
+					for(var j = 0; j < 64; j++){
+					
+						//grab tile id from map file
+						var tileID = FirstMap[count];
+						
+						tx = Math.floor((tileID-1)/16);
+						ty = (tileID-1)%16;
+						
+						//console.log("ty: " + ty + " tx: " + tx);
+						
+						var xz = [ [20*j, 20*i], [20*j+20, 20*i+20] ];
+						//select a tile from tilesheet
+						var uv = [ [ty*0.0625, 1-(tx*0.0625)], [ty*0.0625 + 0.0625, (1-(tx*0.0625)) - 0.0625] ];
+						
+						//var uvList1 = [new THREE.Vector2(uv[0],uv[1]), new THREE.Vector2(uv[2],uv[1]), new THREE.Vector2(uv[0],uv[3])];
+						//var uvList2 = [new THREE.Vector2(uv[0],uv[3]), new THREE.Vector2(uv[2],uv[3]), new THREE.Vector2(uv[2],uv[1])];
+						xyzArray.push(xz[0][0], 0, xz[0][1], xz[0][0], 0, xz[1][1], xz[1][0], 0, xz[0][1]);
+						xyzArray.push(xz[0][0], 0, xz[1][1], xz[1][0], 0, xz[1][1], xz[1][0], 0, xz[0][1]);
+						uvArray.push(uv[0][0], uv[0][1], uv[0][0], uv[1][1], uv[1][0], uv[0][1]);
+						uvArray.push(uv[0][0], uv[1][1], uv[1][0], uv[1][1], uv[1][0], uv[0][1]);
+						
+						normArray.push(0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0);
+			
+						
+						count++;
+					}
+				}
+
+				//mapPlane.uvsNeedUpdate = true;
+				var f32pos = new Float32Array(xyzArray);
+				var posBuffer = new THREE.BufferAttribute(f32pos, 3);
+				var f32uv = new Float32Array( uvArray );
+				var uvBuffer = new THREE.BufferAttribute(f32uv, 2);
+				var f32norm = new Float32Array( normArray );
+				var normBuffer = new THREE.BufferAttribute(f32norm, 3);
+				//var f32idx = new Float32Array( idxArray );
+				//var idxBuffer = new THREE.BufferAttribute(f32idx, 1);
+
+				mapPlane.addAttribute("position", posBuffer);
+				mapPlane.addAttribute("normal", normBuffer);
+				mapPlane.addAttribute("uv", uvBuffer);
+
+				mapMesh = new THREE.Mesh( mapPlane, mapMaterial );
+				mapMesh.position.x -= 10;
+				mapMesh.position.z -= 10;
+				mapMesh.position.y -= 20;
+				
+				console.log(mapPlane);
+				scene.add(mapMesh);
+				
+				mapMesh.material.normalMap = mapNormalMap;
+										
+				//end tile system 3/////////////////////////
+				*/
+				
+				
+				//particle system///////////////////////////
+				
+				var particles = 100;
+					
+				myParticleMat = new ParticleMaterial('textures/leafParticle1.png');
+				
+				//var radius = 40;
+				
+				//var starsMaterial = new THREE.PointsMaterial( { map: parTex, transparent: true, opacity: 1, depthWrite: false } )
+				//starsMaterial.size = 20;
+
+				particleGeometry = new THREE.BufferGeometry();
+				
+				var positions = new Float32Array( particles * 3 );
+				var sizes = new Float32Array( particles );
+				var normalz = new Float32Array( particles * 3 ); 
+				
+				for ( var i = 0, i3 = 0; i < particles; i ++, i3 += 3 ) {
+				
+					positions[ i3 + 0 ] = 355 + Math.random()* 80;
+					positions[ i3 + 1 ] = 30 + Math.random()* 50;
+					positions[ i3 + 2 ] = 175 + Math.random()* 70;
+					
+					normalz [ i3 + 0 ] = 0;
+					normalz [ i3 + 1 ] = 1;
+					normalz [ i3 + 2 ] = 0;
+					
+					sizes[ i ] = 25 + 5*(Math.random()*2 -2);
+				}
+				
+				//adds attributes to our shader uniforms
+				particleGeometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				particleGeometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+				particleGeometry.addAttribute( 'normal', new THREE.BufferAttribute( normalz, 3 ) );
+				
+				//this material won't react to lights:
+				//var ParTmaterial = new THREE.PointsMaterial( { size: 1, transparent: true, color: 0xffffff, size: 20, map: parTex  } );
+				
+				var particleSystem = new THREE.Points( particleGeometry, myParticleMat );
+				particleSystem.scale = 2;
+				//particleSystem.receiveShadow = true;
+				particleSystem.castShadow = true;
+				//particleSystem.dynamic = true;
+				scene.add( particleSystem );
+				
+				//Light rays particle system//////////////////////////
+					
+				var partCount = 50;	
+					
+				myLightMat = new LightRayMaterial('textures/lightRay4.png');
+			
+				
+				lightPGeometry = new THREE.BufferGeometry();
+				
+				var positions = new Float32Array( partCount * 3 );
+				var sizes = new Float32Array( partCount );
+				
+				for ( var i = 0, i3 = 0; i < partCount; i ++, i3 += 3 ) {
+				
+					positions[ i3 + 0 ] = 100 + Math.random()* 800;
+					positions[ i3 + 1 ] = 40-Math.random()* 20;
+					positions[ i3 + 2 ] = 50 + Math.random()* 800;
+					
+					sizes[ i ] = 450 + 5*(Math.random()*2 -2);
+				}
+				//adds attributes to our shader uniforms
+				lightPGeometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				lightPGeometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+				
+				//this material won't react to lights
+				//var ParTmaterial = new THREE.PointsMaterial( { size: 1, transparent: true, color: 0xffffff, size: 20, map: parTex  } );
+				
+				var pLightSystem = new THREE.Points( lightPGeometry, myLightMat );
+				scene.add( pLightSystem );
+				
+				//end particle system///////////////////////
+				
+				//scene suspension particles///////////
+				var quantPar = 48000;
+				var floatyGeometry = new THREE.BufferGeometry();
+				
+				var starsMaterial = new THREE.PointsMaterial( { transparent: true, opacity: 0.3, depthWrite: false, color: 0xccbb55 } )
+				starsMaterial.size = 0.7;
+				
+				var positions = new Float32Array( quantPar * 3 );
+				
+				for ( var i = 0, i3 = 0; i < quantPar; i ++, i3 += 3 ) {
+				
+					positions[ i3 + 0 ] = Math.random()* 1280;
+					positions[ i3 + 1 ] = 90-Math.random()* 200;
+					positions[ i3 + 2 ] = Math.random()* 1280;
+				}
+				
+				//adds attributes to our shader uniforms
+				floatyGeometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				
+				pFloatySystem = new THREE.Points( floatyGeometry, starsMaterial );
+				scene.add( pFloatySystem );
+				//end scene suspension particles///////////////
+				
+				
+				//scene grass/flower particles///////////////
+				
+				var leavesCount = 200;
+
+				myLeavesMat = new ParticleMaterial('textures/flower1.png');
+
+				leavesGeometry = new THREE.BufferGeometry();
+				
+				var positions = new Float32Array( leavesCount * 3 );
+				var sizes = new Float32Array( leavesCount );
+				
+				for ( var i = 0, i3 = 0; i < leavesCount; i ++, i3 += 3 ) {
+				
+					positions[ i3 + 0 ] = 100 + Math.random()* 500;
+					positions[ i3 + 1 ] = -14;
+					positions[ i3 + 2 ] = Math.random()* 250;
+		
+					sizes[ i ] = 25 + 5*(Math.random()*2 -2);
+				}
+				
+				//adds attributes to our shader uniforms
+				leavesGeometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				leavesGeometry.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+				
+				var leavesSystem = new THREE.Points( leavesGeometry, myLeavesMat );
+				leavesSystem.castShadow = true;
+				scene.add( leavesSystem );
+				
+				//end grass/flower particles///////////////
+
+				
+				renderer = new THREE.WebGLRenderer();
+				renderer.shadowMap.enabled = true;
+				
+				//renderer.shadowMap.renderReverseSided = false;
+				//renderer.shadowMap.flipSidedFaces = true;
+				//renderer.shadowMap.type = THREE.PCFSoftShadowMap;//laggy
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor(0x114455);
+				
+				//renderer window, canvas, recieves item drops
+				renderer.domElement.setAttribute("id", "mainGame");
+				renderer.domElement.setAttribute("ondrop","drop(event)");
+				renderer.domElement.setAttribute("ondragover","allowDrop(event)");
+				document.body.appendChild( renderer.domElement );
+				
+				//window listeners
+				window.addEventListener( 'wheel', onScroll, {passive: true} );
+				window.addEventListener( 'mousemove', onMouseMove, {passive: true} );
+				window.addEventListener( 'resize', onWindowResize, false );		
+				
+				//elements listeners
+				document.getElementById("chatWindow").addEventListener( 'wheel', cancelPropagation, {passive: true});
+				document.getElementById("chatWindow").addEventListener( 'click', cancelPropagation, {passive: true});
+				//document.getElementById("loginForm").addEventListener( 'keypress', prevDefaultAndProp);
+				document.getElementById("chatMessages").addEventListener( 'mouseout', pushBottom, {passive: true});
+				document.getElementById("chatMessages").addEventListener( 'click', pushBottom, {passive: true});
+				document.getElementById("chatMessages").addEventListener( 'wheel', cancelPropagation, {passive: true});
+				document.getElementById("chatButton").addEventListener( 'click', sendChat, {passive: true});
+				document.getElementById("menu").addEventListener( 'wheel', cancelPropagation, {passive: true});
+				document.getElementById("menu").addEventListener( 'click', cancelPropagation, {passive: true});
+				document.getElementById("menu").addEventListener( 'contextmenu', prevDefaultAndProp);
+				document.getElementById("menuOpen").addEventListener( 'click', openMenu);
+				document.getElementById("menuNewsOpen").addEventListener( 'click', openNewsMenu);
+				document.getElementById("musicOffButton").addEventListener( 'click', muteBGM);
+				document.getElementById("sliderVolume").addEventListener( 'change', changeVolume);
+				document.getElementById("loginButton").addEventListener( 'click', sendLogin);
+				document.getElementById("newUserButton").addEventListener( 'click', newUserDrop);
+				document.getElementById("load").addEventListener( 'click', load);
+				document.getElementById("unload").addEventListener( 'click', unload);
+                
+                //graph matrix generation
+                var counter = 0;
+                for (var i = 0; i < 64; i++)
+                {
+                    matrixGrid[i] = [];
+                    for(var j = 0; j < 64; j++)
+                    {
+                        matrixGrid[i][j] = FirstCol[counter];
+                        if(matrixGrid[i][j] != 0)
+                        {
+                            matrixGrid[i][j] = 1;     
+                        }
+                        counter++;
+                    }
+                }
+				
+                grid = new PF.Grid(matrixGrid);
+                //console.log(matrixGrid);
+                finder = new PF.AStarFinder({allowDiagonal:true}) ;
+			
+			}
+			function rotateTowards(pos)
+			{
+				if(pos == 1){
+					chaRotation = 0;
+				}
+				if(pos == 2){
+					chaRotation = 1.57;
+				}
+				if(pos == 3){
+					chaRotation = 3.14;
+				}
+				if(pos == 4){
+					chaRotation = 4.71;
+				}
+			}
+			
+			function showItemInfo(elementImg){
+				document.getElementById("itemFloater").style.visibility = "visible";
+				document.getElementById("itemFloaterImage").src = elementImg.src;
+				
+			}
+			function hideItemInfo(){
+				document.getElementById("itemFloater").style.visibility = "hidden";
+			}
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			function selectChar()
+			{
+				charSelected = true;
+				document.getElementById("gameElements").style.visibility = "visible";
+				document.getElementById("charScreen").style.visibility = "hidden";
+			}
+			function sendLogin( event ){
+			
+				var user2Server = document.getElementById("userInput").value;
+				var pass2Server = document.getElementById("passInput").value;
+				if(mySocket.readyState == 1)
+				{
+					mySocket.send("l:" + user2Server + ":" + pass2Server);
+				}
+				else{
+				
+					document.getElementById("warnHeader").innerHTML = "No connection!";
+					document.getElementById("warnAccept").innerHTML = "Refresh!";
+					document.getElementById("warnText").innerHTML = "Try refreshing the page.<br> If there's still no connection, our server may be offline.<br> Sorry for the inconvenience. :(";
+					warnScreen.style.animation = "warnSlide 1s forwards";
+				}
+			}
+			function newUserDrop(){
+				document.getElementById("createAccScreen").style.animation = "warnAccSlide 1s forwards";
+			}
+			function sendCreateUser()
+			{
+				//send:
+				//iCC:nome:cabelo:corcab:sex:eyecol:attribs
+				//iCA:nome:usuario:senha:email:aceito
+				
+				//receive:
+				//iCAS <- success
+				//iCAF <- user j? existe
+				//mySocket.send();
+			}
+			function muteBGM( event ){
+				gainNode.gain.value = -1;
+			}
+			function changeVolume( event ){
+				gainNode.gain.value = document.querySelector("#sliderVolume").value -1;
+				console.log("volume:"+ gainNode.gain.value);
+			}
+			function pushBottom( event ){//auto scroll bottom
+				document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+			}
+			function sendChat( event ){
+				var text = document.getElementById("chatInput").value;
+				var oldMessages = document.getElementById("chatMessages").value;
+				document.getElementById("chatMessages").value = oldMessages + "You:" + text + "\n";
+				//auto-scroll bottom
+				document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+				document.getElementById("chatInput").value = "";
+				console.log("sending user chat to server:" + text);
+				mySocket.send(text);	
+			}
+			function prevDefaultAndProp( event ){
+				event.preventDefault();
+				event.stopPropagation();
+				if(event.keyCode == 13)//enter key pressed
+				{
+					sendLogin();	
+				}
+			}
+			function changeBG(el)
+			{
+				el.firstElementChild.style.backgroundColor = "rgba( 60, 120, 140, 0.90)";
+				el.firstElementChild.style.borderColor = "rgba( 30, 30, 40, 0.90)";
+				el.firstElementChild.style.paddingTop = "3px";
+			}
+			function backBG(el)
+			{
+				el.firstElementChild.style.backgroundColor = "rgba(255, 255, 255, 0.50)";
+				el.firstElementChild.style.borderColor = "white";
+				el.firstElementChild.style.paddingTop = "0px";
+			}
+			function changeTab(el)
+			{
+				el.firstElementChild.style.backgroundColor = "rgba(60, 60, 60, 0.50)";
+			}
+			function openMenu( event )
+			{
+				if(!menuEnabled)
+				{
+					document.querySelector("#menu").style.animation = "slideFrom 1s forwards";
+					document.querySelector("#menuOpen").style.animation = "buttonSlideFrom 1s forwards";
+
+					menuEnabled = true;
+				}
+				else
+				{
+					document.querySelector("#menu").style.animation = "slideTo 1s forwards";
+					document.querySelector("#menuOpen").style.animation = "buttonSlideTo 1s forwards";
+
+					menuEnabled = false;
+				}
+				event.stopPropagation() 
+			}
+			function openNewsMenu( event )
+			{
+				if(menuEnabled)
+				{
+					document.querySelector("#menuNews").style.animation = "slideNewsFrom 1s forwards";
+					document.querySelector("#menuNewsOpen").style.animation = "buttonNewsSlideFrom 1s forwards";
+
+					menuEnabled = false;
+				}
+				else
+				{
+					document.querySelector("#menuNews").style.animation = "slideNewsTo 1s forwards";
+					document.querySelector("#menuNewsOpen").style.animation = "buttonNewsSlideTo 1s forwards";
+
+					menuEnabled = true;
+				}
+				event.stopPropagation() 
+			}
+			
+			function initLights()
+			{
+				var globalLight = new THREE.AmbientLight(0x88cccc, 0.25);
+				scene.add(globalLight);
+				
+				fLight = new THREE.PointLight( 0xffee77, 2, 100, 2 );
+				fLight.position.set( 200, 50, 200 );
+				fLight.castShadow = true;
+				scene.add( fLight )
+				
+				sun = new THREE.DirectionalLight(0xffffff, 0.0);
+				//sun.shadowMapWidth = 4096; // default is 512
+				//sun.shadowMapHeight = 4096; // default is 512
+				sun.shadow.camera.near = 0; 
+				sun.shadow.camera.far = 2000;
+				//sun.shadowBias = 0.5;
+				
+				sun.position.set(300,200,300);
+				sun.castShadow = true;
+				scene.add(sun);
+				sun.shadow.camera.right = 300;
+				sun.shadow.camera.left = -300;
+				sun.shadow.camera.top = 300;
+				sun.shadow.camera.bottom = -300;
+				sun.shadow.mapSize.width = 1024;//default is 512
+				sun.shadow.mapSize.height = 1024;//change to improve performance
+				sun.target = aluV;
+				scene.add( new THREE.DirectionalLightHelper(sun) );
+				scene.fog = new THREE.Fog( 0xbb55ff, 0.15, 1000 );//0xaaccff
+			}
+			
+			function onMouseMove( event ) {
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;	
+			}
+             
+			function onScroll( event )
+			{
+				if(event.deltaY != oldEvent)
+				{
+					if( event.deltaY > 0 )
+					{
+						zoomMultiplier += 0.087;
+					}
+					if( event.deltaY < 0 )
+					{
+						zoomMultiplier -= 0.087;
+					}
+					event.deltaY = oldEvent;
+				}
+			}
+			function animateSprites()
+			{
+				//verify animation state
+				//change spritesheet offsets accordingly
+			}
+						
+			function animate() {
+				
+				stats.begin();//fps meter
+			
+				requestAnimationFrame( animate );
+				
+				
+				//the key events occur once, so we need to set a flag to keep the key "pressed"
+				document.onkeydown = function(e) {
+				  if(e.keyCode == 38) {
+					wFront = true;
+				  }
+				  if(e.keyCode == 40) {
+					wBack = true;
+				  }
+				  if(e.keyCode == 37) {
+					rotLeft = true;
+				  }
+				  if(e.keyCode == 39) {
+					rotRight = true;
+				  }
+				}
+				document.onkeyup = function(e) {
+				  if(e.keyCode == 38) {
+					wFront = false;
+				  }
+				  if(e.keyCode == 40) {
+					wBack = false;
+				  }
+				  if(e.keyCode == 37) {
+					rotLeft = false;
+				  }
+				  if(e.keyCode == 39) {
+					rotRight = false;
+				  }
+				}
+     
+				//vector to hold camera position
+				var cam = new THREE.Vector3();
+				camera.getWorldDirection(cam);
+				
+				//light movement debug
+				if(wFront == true){ addSun+= 0.04; }
+				if(wBack == true){ addSun-= 0.04;  }
+				if(rotLeft == true){ sun.intensity += 0.02; }
+				if(rotRight == true){ sun.intensity -= 0.02; }
+				
+				
+				//raycaster
+				// update the picking ray with the camera and mouse position
+				raycaster.setFromCamera( mouse, camera );
+				var grap = [];
+				var objpos = 0;
+				// calculate objects intersecting the picking ray
+				//we must save tiles and npcs to a list, so they will be the only raycasted elements!!!
+				if(chunkManager.loadedMaps.length > 0){
+				
+					var curr = playerCurrentChunk;
+					
+					var surroundingChunks = [chunkManager.loadedMaps[curr-257], chunkManager.loadedMaps[curr-256], chunkManager.loadedMaps[curr-255], 
+											chunkManager.loadedMaps[curr-1], chunkManager.loadedMaps[curr],chunkManager.loadedMaps[curr+1],
+											chunkManager.loadedMaps[curr+255],chunkManager.loadedMaps[curr+256],chunkManager.loadedMaps[curr+257]];
+					
+					//if we still miss a chunk, add a kleber to it!
+					for(var a = 0; a < 9; a++){
+						if(surroundingChunks[a] == null){ //null == undefined
+							klebMesh.graph = genericBlockGraph;
+							surroundingChunks[a] = klebMesh; ///TO-DO that's ugly! but works for now...
+						}
+					}
+					
+					
+											
+					var intersects = raycaster.intersectObjects( surroundingChunks );
+				
+					if ( intersects.length > 0 ) {
+
+						clickPosition = intersects[0].point;
+						
+						grap = intersects[0].object.graph;
+						
+						objpos = intersects[0].object.position;
+						
+						dirPointer.position.x = clickPosition.x;
+						dirPointer.position.z = clickPosition.z;
+
+						dirPointer.material.color.setHex(0xff0000);
+						
+					}
+				}
+				
+				//find which tile is under the cursor
+				if( grap[ Math.floor((clickPosition.x+10-objpos.x)/20) + 64*Math.floor((clickPosition.z+10-objpos.z)/20)] == 0 ){
+					
+					dirPointer.material.color.setHex(0xffffff);
+                }
+				
+                //input 
+				document.onclick = function()
+				{
+					//graph matrix generation
+					//merging 4 matrices 
+					
+					//position inside graph matrix
+					playerPos = new THREE.Vector3(aluV.position.x, aluV.position.y, aluV.position.z);
+
+					//console.log( (~~(aluV.position.x / 20))%64 );
+					
+					/*
+					///check player quadrant over current chunk
+					
+					if( (~~(aluV.position.x / 20))%64 >= 32 )//right
+					{
+						if( (~~(aluV.position.z / 20))%64 >= 32 )//bot
+						{
+							console.log("bot right");
+						}
+						else{
+							console.log("top right");
+						}
+					}
+					else
+					{
+						if( (~~(aluV.position.z / 20))%64 >= 32 )//bot
+						{
+							console.log("bot left");
+						}
+						else{
+							console.log("top left");
+						}
+					}
+					*/
+					
+					playerPos.x = (~~(aluV.position.x / 20))%64 + 64;
+					playerPos.z = (~~(aluV.position.z / 20))%64 + 64;
+
+					var pointerPos = new THREE.Vector3(dirPointer.position.x, dirPointer.position.y, dirPointer.position.z);
+					
+					pointerPos.x = playerPos.x + ~~((dirPointer.position.x - aluV.position.x)/20); 
+					pointerPos.z = playerPos.z + ~~((dirPointer.position.z - aluV.position.z)/20); 
+
+					//console.log(surroundingChunks);
+					//console.log(chunkManager.loadedMaps);
+					
+					var matrixGridM = [];
+					var counter = 0;
+					
+					for (var i = 0; i < 64; i++){
+						matrixGridM[i] = [];
+						for(var j = 0; j < 64; j++){
+							matrixGridM[i][j] = surroundingChunks[0].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 0; i < 64; i++){
+						//matrixGridM[i] = [];
+						for(var j = 64; j < 128; j++){
+							matrixGridM[i][j] = surroundingChunks[1].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 0; i < 64; i++){
+						//matrixGridM[i] = [];
+						for(var j = 128; j < 192; j++){
+							matrixGridM[i][j] = surroundingChunks[2].graph[counter];
+							counter++;}
+					}
+					
+					counter = 0;
+					for (var i = 64; i < 128; i++){
+						matrixGridM[i] = [];
+						for(var j = 0; j < 64; j++){
+							matrixGridM[i][j] = surroundingChunks[3].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 64; i < 128; i++){
+						//matrixGridM[i] = [];
+						for(var j = 64; j < 128; j++){
+							matrixGridM[i][j] = surroundingChunks[4].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 64; i < 128; i++){
+						//matrixGridM[i] = [];
+						for(var j = 128; j < 192; j++){
+							matrixGridM[i][j] = surroundingChunks[5].graph[counter];
+							counter++;}
+					}
+					
+					counter = 0;
+					for (var i = 128; i < 192; i++){
+						matrixGridM[i] = [];
+						for(var j = 0; j < 64; j++){
+							matrixGridM[i][j] = surroundingChunks[6].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 128; i < 192; i++){
+						//matrixGridM[i] = [];
+						for(var j = 64; j < 128; j++){
+							matrixGridM[i][j] = surroundingChunks[7].graph[counter];
+							counter++;}
+					}
+					counter = 0;
+					for (var i = 128; i < 192; i++){
+						//matrixGridM[i] = [];
+						for(var j = 128; j < 192; j++){
+							matrixGridM[i][j] = surroundingChunks[8].graph[counter];
+							counter++;}
+					}
+					//console.log(matrixGridM);
+					//console.log("from to:");
+					//console.log(playerPos);
+					//console.log(pointerPos);
+
+					grid = new PF.Grid(matrixGridM); 
+					//finder = new PF.AStarFinder({allowDiagonal:true}) ;
+					//end graph gen
+				
+					executePath = true;
+					
+					//gerar o grafo novamente
+					///TO-DO: re arrange position inside graph slot[][]
+					//path = finder.findPath(Math.floor(aluV.position.x/20), Math.floor(aluV.position.z/20), Math.floor((dirPointer.position.x+10)/20), Math.floor((dirPointer.position.z+10)/20), grid.clone());
+					path = finder.findPath(playerPos.x, playerPos.z, pointerPos.x, pointerPos.z, grid.clone());
+					//console.log(path);
+					
+					var chunkRow = ~~( aluV.position.x / 1280 );//remainder of div
+					var chunkCol = ~~( aluV.position.z / 1280 );
+					
+					debugText[0] = "Chunk: " + playerCurrentChunk;
+					
+					var curve = [];
+					
+					for(var i = 0; i < path.length; i++)
+					{
+						//var vec = new THREE.Vector3( path[i][0] + 64*chunkRow*20, -20, path[i][1] + 64*chunkCol*20);
+						var vec = new THREE.Vector3( path[i][0] *20 + (chunkRow-1)*1280 , -20, path[i][1] *20 + (chunkCol-1)*1280 );
+						curve.push(vec);
+					}
+					
+					var catMullCurve = new THREE.CatmullRomCurve3(curve);
+					
+					if(path.length > 1)
+					{
+						path2 = catMullCurve.getSpacedPoints(path.length*2);
+					}
+					else
+					{
+						executePath = false;
+					}
+					trajPoints = 2;
+					
+					//console.log(curve);
+					//console.log(path2);
+					
+					//movement direction vector
+					//charVel = new THREE.Vector3( ((20*path2[trajPoints].x) - aluV.position.x) , 0, ((20*path2[trajPoints].z) - aluV.position.z)).normalize();
+					charVel = new THREE.Vector3( ((path2[trajPoints].x) - aluV.position.x) , 0, ((path2[trajPoints].z) - aluV.position.z)).normalize();
+					
+					//debugText[0] = "trajPointsX: " + path2[trajPoints].x + "; trajPointsY: "  + path2[trajPoints].z + "<br><br>" ; 
+					//debugText[1] = "velVec: " + charVel.x + " ; " + charVel.z + "<br><br>"; 
+					//charVel = new THREE.Vector3( ((pointerPos.x) - playerPos.x) , 0, ((pointerPos.z) - playerPos.z) ).normalize();
+
+				};
+				
+				//physics clock
+				if((Date.now() - time2Physic) >= 15) 
+				{
+					if(executePath == true)
+					{	
+						document.getElementById("debugText").innerHTML = "x: " + aluV.position.x.toFixed(2) + " ; y: " + aluV.position.z.toFixed(2) + "<br><br>" + debugText[0];
+						if(trajPoints < path2.length)
+						{   
+							//dist = Math.sqrt( Math.pow(path2[trajPoints].x*20-aluV.position.x, 2) + Math.pow(path2[trajPoints].z*20 - aluV.position.z, 2));
+							dist = Math.sqrt( Math.pow(path2[trajPoints].x - aluV.position.x, 2) + Math.pow(path2[trajPoints].z - aluV.position.z, 2));
+							
+							//console.log(dist);
+                            if(dist > 1.6)//+0.3 to speed
+							{
+								aluV.position.x += charVel.x*1.3;
+                                aluV.position.z += charVel.z*1.3;
+							}
+							else
+							{   
+								/*
+								aluV.position.x = 20*path2[trajPoints].x;
+								aluV.position.z = 20*path2[trajPoints].z;
+								trajPoints++;
+								try {
+                                charVel = new THREE.Vector3( (20*path2[trajPoints].x) - aluV.position.x , 0, (20*path2[trajPoints].z) - aluV.position.z).normalize();
+								}
+								catch(e)
+								{}*/
+								aluV.position.x = path2[trajPoints].x;
+								aluV.position.z = path2[trajPoints].z;
+								trajPoints++;
+								try {
+									charVel = new THREE.Vector3( (path2[trajPoints].x) - aluV.position.x , 0, (path2[trajPoints].z) - aluV.position.z).normalize();
+								}
+								catch(e)
+								{}
+							}
+						}
+						else{
+							executePath = false;
+							charVel = new THREE.Vector3(0.0,0.0,0.0);
+						}
+						
+						sendPos = true;
+						//if(mySocket.readyState == mySocket.OPEN)
+							//mySocket.send("posx:"+aluV.position.x + ";" + "posz:"+aluV.position.z + ";");
+					}
+					else{
+						charVel = new THREE.Vector3(0.0,0.0,0.0);
+					}
+					time2Physic = Date.now();
+					
+					//camera handling//////////////////////////////
+					var angle = zoomMultiplier;
+					if (angle > (75.0 * Math.PI / 180.0)) angle = (75.0 * Math.PI / 180.0);
+					if (angle < (20.0 * Math.PI / 180.0)) angle = (20.0 * Math.PI / 180.0);
+					
+					camera.position.x = aluV.position.x;
+					if(zoomMultiplier < -1.0){
+						zoomMultiplier = -1.0;
+					}
+					else if(zoomMultiplier > 1.5){
+						zoomMultiplier = 1.5;
+					}
+					else{
+
+						camera.position.z = aluV.position.z + 100*(2-zoomMultiplier)*Math.sin(angle);
+						camera.position.y = 100*(2-zoomMultiplier)*Math.cos(angle);
+					}
+				
+					camera.rotation.x = Math.atan2(aluV.position.y-camera.position.y, -aluV.position.z+camera.position.z);
+					//end camera/////////////////////////////////////
+
+					
+					sun.position.set(aluV.position.x + 200, 500 * addSun, aluV.position.z + 100);
+					
+					aluV.rotation.x = camera.rotation.x + 0.4;
+						
+					klebMesh.rotation.x = camera.rotation.x + 0.4;
+					
+					fLight.position.set(aluV.position.x, 10, aluV.position.z);
+		
+					//shader light
+					
+					myParticleMat.uniforms.sun.value = Math.fround(sun.intensity);
+					myParticleMat.uniforms.sun.needsUpdate = true;
+					
+					myLeavesMat.uniforms.sun.value = Math.fround(sun.intensity);
+					myLeavesMat.uniforms.sun.needsUpdate = true;
+					
+					lights[0] = fLight.position.x;
+					lights[1] = fLight.position.y;
+					lights[2] = fLight.position.z;
+					myParticleMat.uniforms.light.value = lights;
+					myParticleMat.uniforms.light.needsUpdate = true;
+					
+					myLeavesMat.uniforms.light.value = lights;
+					myLeavesMat.uniforms.light.needsUpdate = true;
+					
+					myLightMat.uniforms.light.value = lights;
+					myLightMat.uniforms.light.needsUpdate = true;
+					
+					//camPos
+					var camVec = new THREE.Vector3();
+					camera.getWorldDirection( camVec );
+					//console.log(camera);
+					ticleMater.uniforms.camera.value = camVec;
+					ticleMater.uniforms.camera.needsUpdate = true;
+					
+					//var camm = camera.matrix.elements;
+					var camrt = new THREE.Vector3(1.0, 0.0, 0.0);
+					var camup = new THREE.Vector3(0.0, -Math.cos(camera.rotation.x), -Math.sin(camera.rotation.x));
+					
+					ticleMater.uniforms.cameraup.value = camup;
+					ticleMater.uniforms.camera.needsUpdate = true;
+
+					ticleMater.uniforms.camerart.value = camrt;
+					ticleMater.uniforms.camera.needsUpdate = true;
+
+					ticleMater.uniforms.sun.value = sun.intensity;
+					ticleMater.uniforms.sun.needsUpdate = true;
+					
+					ticleMater.uniforms.light.value = lights;
+					ticleMater.uniforms.light.needsUpdate = true;
+		
+
+					if(Date.now() - time2Animat > 80)
+					{		
+						pFloatySystem.position.y += 0.1*Math.sin(sinPlus);
+						pFloatySystem.position.z += 0.1*Math.sin(2*sinPlus);
+						sinPlus += 0.02;
+						
+						animateSprites();
+						
+						if(charVel.x == 0 && charVel.z == 0){ playerTex.offset.y = 0.00000; } //stopped
+						if(charVel.x > 0 && charVel.z <= 0.708 && charVel.z >= -0.708){ playerTex.offset.y = 0.62500; } //right
+						if(charVel.x < 0 && charVel.z <= 0.708 && charVel.z >= -0.708){ playerTex.offset.y = 0.71875; } //left
+						if(charVel.x <= 0.708 && charVel.x >= -0.708 && charVel.z < 0){ playerTex.offset.y = 0.81250; } //top
+						if(charVel.x <= 0.708 && charVel.x >= -0.708 && charVel.z > 0){ playerTex.offset.y = 0.90625; } //down
+						
+						//console.log(":" + charVel.x + " & " + charVel.z);
+						if(playerTex.offset.x >= 0.625)
+						{ 
+						    playerTex.offset.x = 0;
+						}
+						else{
+							playerTex.offset.x += 0.125;
+						}
+						
+						time2Animat = Date.now();	
+						
+						//Matrix Inverse for raycasting//
+						
+						//object.matrixWorld => modelMatrix 
+						//camera.projectionMatrix => projectionMatrix
+						//camera.matrixWorldInverse => viewMatrix
+						//camera.matrixWorldInverse * object.matrixWorld => modelViewMatrix
+						
+						//full gl transform:
+						//gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );
+						
+						// x y * projectionMatrix^-1 =  modelViewMatrix * vec4( x, y, z, 1.0 );
+						
+						// x y * projectionMatrix^-1 * modelViewMatrix^-1 = vec4( x, y, z, 1.0 );
+						
+						var pin = new THREE.Matrix4();
+						pin.getInverse(camera.projectionMatrix); //Inverse Projection Matrix
+						
+						//console.log(pin);
+						
+						var win = new THREE.Matrix4();
+						win.getInverse(camera.matrixWorldInverse); //Inverse View Matrix
+						
+						//console.log(win);
+						
+						//pin.elements[0] pin.elements[5]
+						//[0.91386 x, 0.7002 y, -1, 0.001] * matrixWorldInverse^-1
+						
+						
+						//var pmou = new THREE.Vector4();
+						
+						
+						//var vecDir = raycaster.ray.direction.multiplyScalar(500);
+						
+						//var vecPos = raycaster.ray.origin.add(vecDir);
+
+						//var vectorp = new THREE.Vector3( mouse.x, mouse.y, 0 ).project( camera );
+						
+						//dirPointer.position.x = pmou.x;
+						//dirPointer.position.z = pmou.y;
+						
+						//console.log(pmou);
+						
+						
+					}
+					
+					
+				}	
+				
+				if(Date.now() - time2Net > 300)
+				{
+					//0 = connecting, 1 = open, 2 = closing, 3 = closed
+					if( mySocket.readyState == 1 && sendPos == true )
+					{
+						mySocket.send("posx:"+ Math.trunc(aluV.position.x) + ":" + "posz:"+ Math.trunc(aluV.position.z) + ":");
+						sendPos = false;
+					}
+					if( mySocket.readyState == 3 && isLoggedIn )
+					{
+						if (confirm('You are offline. Click "OK" to re-connect!') == true) 
+						{
+							location.reload();
+							//window.location = "http://localhost:8000/game/threeRPG2.html?#";
+						} else { alert("You are OFFLINE..."); }	
+					}
+						
+					time2Net = Date.now();
+					
+					chunkManager.update(aluV.position.x, aluV.position.z);//check-update nearby chunks every 0.3 sec
+				}
+				
+				if(!charSelected){
+				
+					renderer.render( loginScene, loginCamera );
+					//update fairy
+					loginLight.position.x += 0.8*Math.sin(4*sinPlus);
+					loginLight.position.y += 0.3*Math.sin(5*sinPlus);
+					loginLight.position.z += 0.35*Math.sin(2*sinPlus);
+					fairyMesh.position.x = loginLight.position.x;
+					fairyMesh.position.y = loginLight.position.y;
+					fairyMesh.position.z = loginLight.position.z;
+					fLights[0] = loginLight.position.x; fLights[1] = loginLight.position.y; fLights[2] = loginLight.position.z;
+					logParticleMat.uniforms.light.value = fLights;
+					logParticleGrassMat.uniforms.light.value = fLights;
+					logParticleFlowersMat.uniforms.light.value = fLights;
+					//update godrays
+					var lightFairy = new Float32Array(); lightFairy = loginLight.position;
+					myLightMats.uniforms.light.value = lightFairy;
+					logParticleFruitsMat.uniforms.light.value = lightFairy;
+					
+					
+					
+					if(carousselChars != null){
+						//rotate lerping char carrousel
+						var steps = ((chaRotation - carousselChars.rotation.y) / 20);
+						if(carousselChars.rotation.y > chaRotation + 0.01 || carousselChars.rotation.y < chaRotation - 0.01)
+						{
+							carousselChars.rotation.y += steps;
+						}
+
+					}
+				}	
+				else{
+					renderer.render( scene, camera );
+				}
+				
+				//partMesh.rotation.z += 0.014;
+				stats.end();
+				
+			}
+
+		</script>
+		
+	</body>
+	
+</html>

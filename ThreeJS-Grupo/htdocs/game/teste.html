@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Deity's Vial</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				margin: 0px;
+				background-color: #777779;
+				overflow: hidden;
+			}
+		</style>
+		
+		<link href="css/styles.css" rel="stylesheet">
+		
+		<!--Angular-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		
+		<script>
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+
+		function drag(ev) {
+			ev.dataTransfer.setData("text", ev.target.id);
+		}
+
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("text");
+			ev.target.appendChild(document.getElementById(data));
+		}
+		</script>
+		
+	</head>
+	<body>
+		<!--
+		<div style="position: fixed; bottom: 5%; left: 0px; width: 100%; height: 10%; margin: 5px auto; overflow: hidden;">
+			<div id="inventory" style="position: absolute; left: 25%; width: 50%; height: 100%; min-width: 200px; min-height: 50px; overflow: hidden; display: block; border: 1px solid black; background-color: white;">
+				<p id="textelement" style="text-align: center;">I am a text element <button name="ALERT!" onclick='alert("Você foi alertado.")'>ALERT!</button></p>
+			</div>
+		</div>
+		-->
+
+		<div id="loginScreen" style="visibility: hidden;"><!--style="visibility: hidden;"-->
+			<div id="loginFrame" class="img-pixelated" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30%; height: 40%; background-image: url('/game/textures/menuBGtest.png'); background-repeat: no-repeat; background-size:100%; border: 5px solid white; border-radius: 6px;">
+			
+				<img class="img-pixelated" src="/game/textures/leafParticle.png" style="position: fixed; top: 3%; left: 97%; transform: translate(-50%, -50%); width: auto; height: 40%;"></img>
+				<input id="userInput" type="text" placeholder="E-Mail" style="position: fixed; top: 60%; left: 40%; transform: translate(-50%, -50%); width: 50%; height: 10%; background-color: #aaddff; color: #002244; border: 5px solid white; font-weight: bold; text-align:center;"></input>
+				<input id="passInput" type="password" placeholder="Password" style="position: fixed; top: 80%; left: 40%; transform: translate(-50%, -50%); width: 50%; height: 10%; background-color: #aaddff; color: #002244; border: 5px solid white; font-weight: bold; text-align:center;"></input>
+				<img class="img-pixelated" src="/game/textures/loginBut.png" style="position: fixed; top: 100%; left: 90%; transform: translate(-50%, -50%); width: auto; height: 22%;"></img>
+			
+			</div>
+		</div>
+		
+		<div id="gameElements">
+		
+			<div id="menu" class="img-pixelated" style="position: fixed; top: 0px; left:0px; width: 60%; height: 100%; box-sizing: border-box; border: 0px solid black; background-image: url('/game/textures/menuBGtest.png'); background-size: 100%; ">
+				
+				<div style="position: relative; left:10%; top: 10%; overflow:hidden; text-align:center; border: 2px solid white; height: 10%; width: 80%">
+				
+					<button id="musicOffButton">Music Off</button>
+					<input id="sliderVolume" type="range" min="0" max="1" step="0.05" />
+					
+				</div>
+				
+				<div style="position: relative; left:10%; top: 10%; overflow:hidden; text-align:center; border: 2px solid white; height: 37%; width: 80%">
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)">
+						<img src="textures/leafParticle.png" draggable="true" ondragstart="drag(event)" id="drag1" width="64" height="64">
+					</div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+					<div id="div2" class="item-slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+				</div>
+				
+			</div>
+			
+			<div id="menuOpen" class="img-pixelated" style="position: fixed; top: 45%; left: 0%; width: 4.4%; height: 17.6%; background-image: url('/game/textures/ui-bag.png'); background-repeat: no-repeat; background-size:100%;">
+			</div>
+			
+			<div id="hpBarBg" class="img-pixelated" style="position: fixed; top: 0%; right: 0%; width: 28%; height: 10%; background-image: url('/game/textures/ui-statusBar.png'); background-repeat: no-repeat; background-size:100%;">
+			</div>
+			
+			<div id="chatWindow" style="position: fixed; bottom: 0%; right: 0%; width: 28%; height: 10%; opacity: 0.9; background-image: url('/game/textures/treeBark1.png'); background-repeat: no-repeat; background-size:100%;">
+				<textarea id="chatMessages" style="opacity: 0.7;"></textarea>
+				<input id="chatInput" type="text"></input>
+				<button id="chatButton">SEND</button>
+			</div>
+			
+		</div>
+		</body>
+		</html>

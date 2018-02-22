@@ -1,0 +1,8 @@
+http://cpetry.github.io/NormalMap-Online/
+
+Values for terrain:
+strenght: 0.26
+lvl: 10
+blur: 32
+filter: sobel
+
